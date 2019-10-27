@@ -47,6 +47,7 @@
 <script>
 import { auth } from "@/main";
 import router from "../router/index"
+import store from "../store/index"
 
 export default {
   data() {
@@ -59,15 +60,16 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.form.email, this.form.password)
       auth
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(function(firebaseUser) {
+          store.dispatch('login', firebaseUser.user.email)
           router.push("dashboard")
         })
         .catch(function(error) {
           console.error(error)
         });
+        
     }
   }
 };

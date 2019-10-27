@@ -7,11 +7,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    items: null
+    items: null,
+    user: null
   },
   getters: {
     getItems: state => {
       return state.items
+    },
+    getUser: state => {
+      return state.user
     }
   },
   mutations: {
@@ -26,12 +30,29 @@ export default new Vuex.Store({
  
         state.items = items
       })
-    }
+    },
+    login(state,  email) {
+      state.user = db.collection('users').doc(email).get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          console.log('Document data:', doc.data());
+          state.user = doc.data()
+        }
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+  }
   },
   actions: {
     setItems: context => {
       context.commit('setItems')
-    }
+    },
+    login(context, email) {
+      context.commit('login', email)
+    }, 
   },
   modules: {
   }
