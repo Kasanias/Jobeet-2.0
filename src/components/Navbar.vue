@@ -14,12 +14,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul v-if="this.isLogged" class="navbar-nav ml-auto">
         <li class="nav-item active">
           <router-link class="nav-link" to="/">Home</router-link>
         </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/test">Test</router-link>
+        <li class="nav-item ml-2">
+          <router-link class="nav-link" to="/offers">Offers</router-link>
         </li>
       </ul>
 
@@ -41,16 +41,16 @@
             v-model="form.password"
           />
         </li>
-        <li class="nav-item active ml-2">
+        <li class="nav-item active mr-2">
           <button type="button" @click="this.login" class="btn btn-outline-success">Login</button>
         </li>
       </ul>
 
-      <ul v-if="this.isLogged" class="navbar-nav mr-0">
-        <li class="nav-item active mr-2">
+      <ul v-if="this.isLogged" class="navbar-nav mr-auto">
+        <li class="nav-item active ml-3">
           <div class="dropdown show">
             <a
-              class="dropdown-toggle"
+              class="dropdown-toggle you-button"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -59,7 +59,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <p class="dropdown-item" href="#">{{this.getUser.firstname}} {{this.getUser.lastname}}</p>
               <!-- <p class="dropdown-item" href="#">{{this.getUser.description}}</p> -->
-              <a class="dropdown-item" href="#">Profile</a>
+              <router-link class="dropdown-item" :to="{ name: 'profile', params: { email: this.getUser.email }}">Profile</router-link>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Logout</a>
             </div>
@@ -110,3 +110,17 @@ export default {
   }
 };
 </script>
+
+
+
+<style>
+
+li {
+  /* margin-right: 10px */
+}
+
+.you-button {
+  cursor: pointer;
+}
+
+</style>
