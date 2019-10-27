@@ -23,7 +23,7 @@
         </li>
       </ul>
 
-      <ul v-if="!this.isLogged" class="navbar-nav mr-0">
+      <ul v-if="!this.isLogged" class="navbar-nav ml-auto">
         <li class="nav-item active mr-2">
           <input
             type="email"
@@ -59,7 +59,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <p class="dropdown-item" href="#">{{this.getUser.firstname}} {{this.getUser.lastname}}</p>
               <!-- <p class="dropdown-item" href="#">{{this.getUser.description}}</p> -->
-              <router-link class="dropdown-item" :to="{ name: 'profile', params: { email: this.getUser.email }}">Profile</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'profile', params: { email: this.getUser.email }}">See profile</router-link>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Logout</a>
             </div>

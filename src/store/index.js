@@ -32,7 +32,7 @@ export default new Vuex.Store({
       })
     },
     login(state,  email) {
-      state.user = db.collection('users').doc(email).get()
+      db.collection('users').doc(email).get()
       .then(doc => {
         if (!doc.exists) {
           console.log('No such document!');
