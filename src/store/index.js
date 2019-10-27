@@ -37,7 +37,7 @@ export default new Vuex.Store({
         if (!doc.exists) {
           console.log('No such document!');
         } else {
-          console.log('Document data:', doc.data());
+          console.log('User logged:', doc.data());
           state.user = doc.data()
         }
       })

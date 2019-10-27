@@ -102,6 +102,7 @@
 <script>
 import { auth, db } from '@/main'
 import router from "../router/index"
+import store from "../store/index"
 
 export default {
   data() {
@@ -129,6 +130,7 @@ export default {
               email: this.form.email
             }
           db.collection('users').doc(this.form.email).set(user);
+          store.dispatch('login', this.form.email)
           router.push("dashboard")
         })
         .catch(err => {

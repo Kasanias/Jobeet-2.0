@@ -23,7 +23,7 @@
         </li>
       </ul>
 
-      <ul class="navbar-nav mr-0">
+      <ul v-if="!this.isLogged" class="navbar-nav mr-0">
         <li class="nav-item active mr-2">
           <input
             type="email"
@@ -34,20 +34,48 @@
           />
         </li>
         <li class="nav-item active">
-          <input type="password" class="form-control" placeholder="Password" v-model="form.password" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            v-model="form.password"
+          />
         </li>
         <li class="nav-item active ml-2">
           <button type="button" @click="this.login" class="btn btn-outline-success">Login</button>
         </li>
+      </ul>
+
+      <ul v-if="this.isLogged" class="navbar-nav mr-0">
+        <li class="nav-item active mr-2">
+          <div class="dropdown show">
+            <a
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >You</a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <p class="dropdown-item" href="#">{{this.getUser.firstname}} {{this.getUser.lastname}}</p>
+              <!-- <p class="dropdown-item" href="#">{{this.getUser.description}}</p> -->
+              <a class="dropdown-item" href="#">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Logout</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item active"></li>
+        <li class="nav-item active ml-2"></li>
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
-import { auth } from "@/main";
-import router from "../router/index"
-import store from "../store/index"
+import { auth, db } from "@/main";
+import router from "../router/index";
+import store from "../store/index";
 
 export default {
   data() {
@@ -55,7 +83,8 @@ export default {
       form: {
         email: "",
         password: ""
-      }
+      },
+      user: this.getUser
     };
   },
   methods: {
@@ -63,13 +92,20 @@ export default {
       auth
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(function(firebaseUser) {
-          store.dispatch('login', firebaseUser.user.email)
-          router.push("dashboard")
+          store.dispatch("login", firebaseUser.user.email);
+          router.push("dashboard");
         })
         .catch(function(error) {
-          console.error(error)
+          console.error(error);
         });
-        
+    }
+  },
+  computed: {
+    isLogged() {
+      return store.state.user !== null;
+    },
+    getUser() {
+      return store.state.user;
     }
   }
 };
