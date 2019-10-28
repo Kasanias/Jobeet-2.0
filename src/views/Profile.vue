@@ -9,24 +9,23 @@
               <h3>{{user.firstname}} {{user.lastname}}</h3>
               <small>{{user.city}}, {{user.country}}</small>
               <p>{{user.description}}</p>
-              
             </div>
           </div>
-          <br>
+          <br />
           <p>
-              <strong>Bio</strong>
-              <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.
-            </p>
+            <strong>Bio</strong>
+            <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.
+          </p>
           <hr />
-            <div>
-              <strong>Skills</strong>
-            </div>
-            <span class="badge badge-warning mr-1">HTML5/CSS</span>
-            <span class="badge badge-info">Adobe CS 5.5</span>
-            <span class="badge badge-info">Microsoft Office</span>
-            <span class="badge badge-success">Windows XP, Vista, 7</span>
-            
-            <br />
+          <div>
+            <strong>Skills</strong>
+          </div>
+          <span class="badge badge-warning mr-1">HTML5/CSS</span>
+          <span class="badge badge-info">Adobe CS 5.5</span>
+          <span class="badge badge-info">Microsoft Office</span>
+          <span class="badge badge-success">Windows XP, Vista, 7</span>
+
+          <br />
         </center>
       </div>
       <!-- Modal -->
@@ -40,16 +39,63 @@
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-              <h4 class="modal-title" id="myModalLabel">More About Joe</h4>
-            </div>
             <div class="modal-body">
               <center>
-                <h3 class="media-heading">
-                  Joe Sixpack
-                  <small>USA</small>
-                </h3>
+                <form @submit="this.onSubmit">
+                  <h3>Edit your profile</h3>
+                  <div class="row">
+                    <div class="col b">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Firstname</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          placeholder="Firstname"
+                          v-model="user.firstname"
+                        />
+                      </div>
+                    </div>
+                    <div class="col b">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Lastname</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          placeholder="Lastname"
+                          v-model="user.lastname"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      placeholder="Description"
+                      v-model="user.description"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Bio</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      placeholder="Bio"
+                      v-model="user.bio"
+                    />
+                  </div>
+
+                  <label for="profiletype">Add tags</label>
+
+                  <button type="submit" class="btn btn-primary">Submit changes</button>
+                </form>
                 <span>
                   <strong>Skills:</strong>
                 </span>
@@ -69,11 +115,7 @@
             </div>
             <div class="modal-footer">
               <center>
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                >I've heard enough about Joe</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
               </center>
             </div>
           </div>
@@ -93,6 +135,9 @@ export default {
     return {
       user: null
     };
+  },
+  methods: {
+    onSubmit() {}
   },
   mounted() {
     db.collection("users")
