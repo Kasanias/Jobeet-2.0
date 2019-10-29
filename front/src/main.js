@@ -8,8 +8,8 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-Vue.use(BootstrapVue)
-Vue.config.productionTip = false
+Vue.use(BootstrapVue);
+Vue.config.productionTip = false;
 
 const config = {
   apiKey: "AIzaSyDdBrcA_slQq6owvm3Q5_waRJAA0PjyzhI",
@@ -20,15 +20,15 @@ const config = {
   messagingSenderId: "811645163630",
   appId: "1:811645163630:web:5af5ebe66a950db88a6e7f",
   measurementId: "G-CDS8G5F4XD"
-}
+};
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
-export const db = firebase.firestore()
-export const auth = firebase.auth()
+export const db = firebase.firestore();
+export const auth = firebase.auth();
 
 new Vue({
   router,
   store,
   render: function (h) { return h(App) }
-}).$mount('#app')
+}).$mount('#app');

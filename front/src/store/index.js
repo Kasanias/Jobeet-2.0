@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { db } from '@/main'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -20,13 +20,13 @@ export default new Vuex.Store({
   },
   mutations: {
     setItems: state => {
-      let items = []
+      let items = [];
  
       db.collection('items').orderBy('created_at').onSnapshot((snapshot) => {
-        items = []
+        items = [];
         snapshot.forEach((doc) => {
           items.push({ id: doc.id, title: doc.data().title })
-        })
+        });
  
         state.items = items
       })
