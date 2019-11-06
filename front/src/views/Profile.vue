@@ -94,24 +94,12 @@
 
                   <label for="profiletype">Add tags</label>
 
+
                   <button type="submit" class="btn btn-primary">Submit changes</button>
                 </form>
-                <span>
-                  <strong>Skills:</strong>
-                </span>
-                <span class="label label-warning">HTML5/CSS</span>
-                <span class="label label-info">Adobe CS 5.5</span>
-                <span class="label label-info">Microsoft Office</span>
-                <span class="label label-success">Windows XP, Vista, 7</span>
+               
               </center>
-              <hr />
-              <center>
-                <p class="text-left">
-                  <strong>Bio:</strong>
-                  <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.
-                </p>
-                <br />
-              </center>
+              
             </div>
             <div class="modal-footer">
               <center>
