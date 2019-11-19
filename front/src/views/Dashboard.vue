@@ -1,99 +1,36 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo" />
-    <div class="title">What do I need to do today?</div>
-    <input v-model="myTodo" />
-    <button @click="addToDo">Add</button>
-    <div v-if="errors !== ''" id="errors">{{ errors }}</div>
+  <div>
+    <div class="row">
+      <div class="col-sm-8 ml-3">
+        <h3>Mes offres</h3>
+        <div class="row">
+          <div class="col">
+            <h3>1</h3>
+          </div>
+          <div class="col">
+            <h3>1</h3>
+          </div>
+          <div class="col">
+            <h3>1</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 ml-3">
+        <h3>Suggestions</h3>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { db } from '@/main'
+//mes offres, suggestions à droite profil
+import { db } from "@/main";
 export default {
-  name: "home",
-  data: function() {
-    return {
-      myTodo: "",
-      errors: ""
-    };
+  data() {
+    return {};
   },
-  methods: {
-    addToDo: function() {
-      this.errors = "";
-      if (this.myTodo !== "") {
-        db.collection("items")
-          .add({
-            title: this.myTodo,
-            created_at: Date.now()
-          })
-          .then(response => {
-            if (response) {
-              this.myTodo = "";
-            }
-          })
-          .catch(error => {
-            this.errors = error;
-          });
-      } else {
-        this.errors = "Please enter some text";
-      }
-    }
-  }
+  methods: {}
 };
 </script>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body,
-html,
-#app {
-}
-
-.home {
-  width: 300px;
-  margin: auto;
-}
-
-#vue-logo {
-  width: 100px;
-}
-
-input,
-button {
-  border: 0;
-  width: 100%;
-  margin: 0 0 10px;
-  padding: 7px;
-}
-
-input {
-  font-size: 12px;
-}
-
-button {
-  background: #43b823;
-  border: 0;
-  text-transform: uppercase;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 700;
-  padding: 0 0 10px 0;
-  margin: 0 0 10px 0;
-  border-bottom: 1px solid #666;
-}
-
-#errors {
-  background: #a52222;
-  color: #fff;
-  padding: 5px;
-}
-</style>

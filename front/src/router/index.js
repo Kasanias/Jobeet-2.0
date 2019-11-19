@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
+import Offers from '../views/Offers.vue'
 import store from '../store';
 import { auth, db } from '@/main'
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/profile/:name',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/offers',
+    name: 'Offers',
+    component: Offers
   }
 ]
 

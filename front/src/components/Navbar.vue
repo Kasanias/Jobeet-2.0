@@ -2,7 +2,6 @@
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <a class="navbar-brand" href="/">
       Jobeet
-      <i class="fas fa-hard-hat"></i>
     </a>
     <button
       class="navbar-toggler"
@@ -19,10 +18,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul v-if="this.isLogged" class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <router-link class="nav-link" to="/"><i class="fas fa-tachometer-alt"></i>Dashboard</router-link>
+          <router-link class="nav-link" to="/">Dashboard</router-link>
+        </li>
+        <li class="nav-item active">
+          <router-link class="nav-link" to="/offers">Offers</router-link>
         </li>
         <li class="nav-item ml-2">
-          <router-link class="nav-link" to="/about">A propos de Khan</router-link>
+          <router-link class="nav-link" to="/about">About</router-link>
         </li>
       </ul>
 
