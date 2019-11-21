@@ -17,6 +17,22 @@
           </p>
           <hr />
 
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+              <div class="form-group">
+                <h4>Select your company ...</h4>
+                <select id="company-select" class="form-control">
+                  <option v-for="company in this.companies">{{company.name}}</option>
+                </select>
+                <button @click="join()" type="button" class="btn btn-outline-primary mt-2">Join</button>
+              </div>
+              <h4>... or create a new one</h4>
+              <router-link to="/createCompany" tag="button">Create company</router-link>
+            </div>
+                        <div class="col"></div>
+
+          </div>
 
           <br />
         </center>
@@ -87,12 +103,9 @@
 
                   <label for="profiletype">Add tags</label>
 
-
                   <button type="submit" class="btn btn-primary">Submit changes</button>
                 </form>
-               
               </center>
-              
             </div>
             <div class="modal-footer">
               <center>
@@ -114,16 +127,28 @@ import store from "../store/index";
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      companies: []
     };
   },
   methods: {
     onSubmit() {
       db.collection("users")
-      .doc(this.$route.params.email)
-      .update({
-        
-      })
+        .doc(this.$route.params.email)
+        .update({});
+    },
+    join() {
+      let c = document.getElementById("company-select").value;
+      let company = this.companies.filter(function(doc) {
+        return doc.name === c;
+      })[0];
+      db.collection("users")
+        .doc(store.getters.getUser)
+        .update({
+          company: company
+        });
+
+      router.push({ path: "/company/" + company.id });
     }
   },
   mounted() {
@@ -137,6 +162,28 @@ export default {
           console.log("User profile:", doc.data());
           this.user = doc.data();
         }
+      });
+  },
+  created() {
+    console.log("created");
+    db.collection("users")
+      .doc(store.getters.getUser)
+      .get()
+      .then(doc => {
+        this.user = doc.data();
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
+    db.collection("companies")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          this.companies.push({ name: doc.data().name, id: doc.id });
+        });
+      })
+      .catch(err => {
+        console.log("Error getting documents", err);
       });
   }
 };

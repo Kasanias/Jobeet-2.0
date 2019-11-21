@@ -32,16 +32,16 @@ export default {
   methods: {
     join() {
       let c = document.getElementById("company-select").value;
+      let company = this.companies.filter(function(doc) {
+        return doc.name === c
+      })[0]
       db.collection("users")
         .doc(store.getters.getUser)
         .update({
-          company: c
+          company: company
         });
 
-      let company_id = this.companies.filter(function(doc) {
-        return doc.name === c
-      })[0].id
-      router.push({path: "/company/" + company_id })
+      router.push({path: "/company/" + company.id })
     }
   },
   created() {
