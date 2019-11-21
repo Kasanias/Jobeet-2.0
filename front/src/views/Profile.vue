@@ -7,7 +7,6 @@
             <div class="card-body">
               <a href="#aboutModal" data-toggle="modal" data-target="#myModal">edit</a>
               <h3>{{user.firstname}} {{user.lastname}}</h3>
-              <small>{{user.city}}, {{user.country}}</small>
               <p>{{user.description}}</p>
             </div>
           </div>
@@ -17,13 +16,7 @@
             <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.
           </p>
           <hr />
-          <div>
-            <strong>Skills</strong>
-          </div>
-          <span class="badge badge-warning mr-1">HTML5/CSS</span>
-          <span class="badge badge-info">Adobe CS 5.5</span>
-          <span class="badge badge-info">Microsoft Office</span>
-          <span class="badge badge-success">Windows XP, Vista, 7</span>
+
 
           <br />
         </center>
@@ -121,11 +114,17 @@ import store from "../store/index";
 export default {
   data() {
     return {
-      user: null
+      user: {}
     };
   },
   methods: {
-    onSubmit() {}
+    onSubmit() {
+      db.collection("users")
+      .doc(this.$route.params.email)
+      .update({
+        
+      })
+    }
   },
   mounted() {
     db.collection("users")

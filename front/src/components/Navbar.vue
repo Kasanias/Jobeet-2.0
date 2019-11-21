@@ -20,10 +20,13 @@
         <li class="nav-item active">
           <router-link class="nav-link" to="/">Dashboard</router-link>
         </li>
+        <li v-if="this.user.profile==='recruiter'" class="nav-item active">
+          <router-link class="nav-link" to="/company">Company</router-link>
+        </li>
         <li class="nav-item active">
           <router-link class="nav-link" to="/offers">Offers</router-link>
         </li>
-        <li class="nav-item ml-2">
+        <li class="nav-item active ml-2">
           <router-link class="nav-link" to="/about">About</router-link>
         </li>
       </ul>
@@ -62,12 +65,12 @@
               aria-expanded="false"
             >Profil</a>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
               <p class="dropdown-item" href="#">{{this.user.firstname}} {{this.user.lastname}}</p>
               <!-- <p class="dropdown-item" href="#">{{this.getUser.description}}</p> -->
               <router-link
                 class="dropdown-item"
-                :to="{ name: 'profile', params: { email: this.user.email }}"
+                :to="{ name: 'Profile', params: { email: this.user.email }}"
               >See profile</router-link>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" @click="this.logout">Logout</a>

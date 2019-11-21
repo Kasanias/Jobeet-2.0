@@ -4,6 +4,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import Offers from '../views/Offers.vue'
+import Company from '../views/Company.vue'
 import store from '../store';
 import { auth, db } from '@/main'
 
@@ -31,7 +32,7 @@ const routes = [
     }
   },
   {
-    path: '/profile/:name',
+    path: '/profile/:email',
     name: 'Profile',
     component: Profile
   },
@@ -39,6 +40,16 @@ const routes = [
     path: '/offers',
     name: 'Offers',
     component: Offers
+  },
+  {
+    path: '/company',
+    name: 'Company',
+    component: Company
+  },
+  {
+    path: '/company/:id',
+    name: 'Company',
+    component: Company
   }
 ]
 
