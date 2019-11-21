@@ -3,15 +3,7 @@
     <div class="row">
       <div class="col"></div>
       <div class="col">
-        <div class="form-group">
-          <h4>Select your company ...</h4>
-          <select id="company-select" class="form-control">
-            <option v-for="company in this.companies">{{company.name}}</option>
-          </select>
-          <button @click="join()" type="button" class="btn btn-outline-primary mt-2">Join</button>
-        </div>
-        <h4>... or create a new one</h4>
-        <router-link to="/createCompany" tag="button">Create company</router-link>
+          <h4>{{ $route.params.id }}</h4>
       </div>
       <div class="col"></div>
     </div>
@@ -29,23 +21,8 @@ export default {
       companies: []
     };
   },
-  methods: {
-    join() {
-      let c = document.getElementById("company-select").value;
-      let company = this.companies.filter(function(doc) {
-        return doc.name === c
-      })[0]
-      db.collection("users")
-        .doc(store.getters.getUser)
-        .update({
-          company: company
-        });
-
-      router.push({path: "/company/" + company.id })
-    }
-  },
+  methods: {},
   created() {
-    console.log("created")
     db.collection("users")
       .doc(store.getters.getUser)
       .get()

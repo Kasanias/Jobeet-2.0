@@ -21,7 +21,7 @@
           <router-link class="nav-link" to="/">Dashboard</router-link>
         </li>
         <li v-if="this.user.profile==='recruiter'" class="nav-item active">
-          <router-link class="nav-link" to="/company">Company</router-link>
+          <router-link class="nav-link" :to='"/company/" + this.user.company.id'>Company</router-link>
         </li>
         <li class="nav-item active">
           <router-link class="nav-link" to="/offers">Offers</router-link>
@@ -63,11 +63,9 @@
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-            >Profil</a>
+            >{{this.user.firstname}} {{this.user.lastname}}</a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-              <p class="dropdown-item" href="#">{{this.user.firstname}} {{this.user.lastname}}</p>
-              <!-- <p class="dropdown-item" href="#">{{this.getUser.description}}</p> -->
               <router-link
                 class="dropdown-item"
                 :to="{ name: 'Profile', params: { email: this.user.email }}"
