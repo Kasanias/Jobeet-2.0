@@ -8,7 +8,7 @@
         <div class="mt-auto w-100">
           <div
             class="btn btn-outline-info btn-light disabled border-info"
-          >{{new Date(offer.created_at.toDate).toLocaleDateString("fr-FR")}}</div>
+          >{{offer.created_at}}</div>
           <div
             class="btn btn-outline-info btn-light disabled border-info ml-5"
           >See offer</div>

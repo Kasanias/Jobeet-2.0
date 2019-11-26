@@ -6,10 +6,10 @@
       <a class="nav-item nav-link" href="#p2" data-toggle="tab">Recruiters</a>
       <a class="nav-item nav-link" href="#p3" data-toggle="tab">Applications</a>
     </nav>
-    <div class="tab-content ml-4">
-      <div class="tab-pane active" id="p1">
+    <div class="tab-content ml-4 ">
+      <div class="tab-pane active justify-content-center" id="p1">
         <CreateOffer :company="this.company.name" />
-        <div class="row ml-2 mr-2 mt-2">
+        <div class="row mt-2 justify-content-center">
           <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
         </div>
       </div>
@@ -38,7 +38,7 @@ export default {
     return {
       user: {},
       company: {},
-      offers: []
+      offers: [],
     };
   },
   methods: {},

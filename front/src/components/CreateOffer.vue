@@ -3,10 +3,10 @@
     <!-- Button trigger modal -->
     <button
       type="button"
-      class="btn btn-primary"
+      class="btn btn-primary "
       data-toggle="modal"
       data-target="#exampleModal"
-    >Create offer</button>
+    >+</button>
 
     <!-- Modal -->
     <div
@@ -85,7 +85,6 @@ export default {
       name: "",
       short_desc: "",
       full_desc: "",
-      created_at: "",//firebase.firestore.Timestamp.fromDate(Date.now()),
       tags: [],
       all_tags: []
     };
@@ -98,7 +97,7 @@ export default {
           short_desc : this.short_desc,
           full_desc: this.full_desc,
           tags: this.tags,
-          created_at: this.created_at,
+          created_at: new Date(Date.now()).toLocaleDateString(),
           company: this.company
         })
         .then(ref => {
@@ -106,7 +105,7 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     db.collection("tags")
       .get()
       .then(snapshot => {
