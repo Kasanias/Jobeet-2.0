@@ -30,8 +30,7 @@
               <h4>... or create a new one</h4>
               <router-link to="/createCompany" tag="button">Create company</router-link>
             </div>
-                        <div class="col"></div>
-
+            <div class="col"></div>
           </div>
 
           <br />

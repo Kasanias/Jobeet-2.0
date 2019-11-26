@@ -110,11 +110,7 @@ export default {
       .doc(store.getters.getUser)
       .get()
       .then(doc => {
-        if (!doc.exists) {
-          console.log("No such document!");
-        } else {
           this.user = doc.data();
-        }
       })
       .catch(err => {
         console.log("Error getting document", err);
