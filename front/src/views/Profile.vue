@@ -7,28 +7,21 @@
             <div class="card-body">
               <a href="#aboutModal" data-toggle="modal" data-target="#myModal">edit</a>
               <h3>{{user.firstname}} {{user.lastname}}</h3>
-              <p>{{user.description}}</p>
+              <p v-if="user.company">Recruiter at {{user.company}}</p>
             </div>
           </div>
           <br />
           <p>
             <strong>Bio</strong>
-            <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.
+            <br />
+            {{user.bio}}
           </p>
           <hr />
 
           <div class="row">
             <div class="col"></div>
             <div class="col">
-              <div class="form-group">
-                <h4>Select your company ...</h4>
-                <select id="company-select" class="form-control">
-                  <option v-for="company in this.companies">{{company.name}}</option>
-                </select>
-                <button @click="join()" type="button" class="btn btn-outline-primary mt-2">Join</button>
-              </div>
-              <h4>... or create a new one</h4>
-              <router-link to="/createCompany" tag="button">Create company</router-link>
+              <CompanySelection/>
             </div>
             <div class="col"></div>
           </div>
@@ -39,8 +32,8 @@
       <!-- Modal -->
       <div
         class="modal fade"
-        id="myModal"
         tabindex="-1"
+        id="myModal"
         role="dialog"
         aria-labelledby="myModalLabel"
         aria-hidden="true"
@@ -49,7 +42,7 @@
           <div class="modal-content">
             <div class="modal-body">
               <center>
-                <form @submit="this.onSubmit">
+                <form>
                   <h3>Edit your profile</h3>
                   <div class="row">
                     <div class="col b">
@@ -58,7 +51,6 @@
                         <input
                           type="text"
                           class="form-control"
-                          id="exampleInputEmail1"
                           placeholder="Firstname"
                           v-model="user.firstname"
                         />
@@ -70,7 +62,6 @@
                         <input
                           type="text"
                           class="form-control"
-                          id="exampleInputEmail1"
                           placeholder="Lastname"
                           v-model="user.lastname"
                         />
@@ -79,30 +70,18 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Description</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      placeholder="Description"
-                      v-model="user.description"
-                    />
+                    <label for="exampleInputEmail1">Bio</label>
+                    <input type="text" class="form-control" placeholder="Bio" v-model="user.bio" />
                   </div>
 
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Bio</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      placeholder="Bio"
-                      v-model="user.bio"
-                    />
+                    <label>Tags</label>
+                    <select v-model="user.tags" multiple class="form-control">
+                      <option :key="item" v-for="item in this.all_tags">{{item}}</option>
+                    </select>
                   </div>
 
-                  <label for="profiletype">Add tags</label>
-
-                  <button type="submit" class="btn btn-primary">Submit changes</button>
+                  <button @click="onSubmit()" class="btn btn-primary">Submit changes</button>
                 </form>
               </center>
             </div>
@@ -122,33 +101,25 @@
 import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
+import CompanySelection from "../components/CompanySelection"
 
 export default {
+  components : {
+    CompanySelection
+  },
   data() {
     return {
       user: {},
-      companies: []
+      all_tags: []
     };
   },
   methods: {
     onSubmit() {
+      console.log("submitting")
       db.collection("users")
         .doc(this.$route.params.email)
-        .update({});
+        .update(this.user);
     },
-    join() {
-      let c = document.getElementById("company-select").value;
-      let company = this.companies.filter(function(doc) {
-        return doc.name === c;
-      })[0];
-      db.collection("users")
-        .doc(store.getters.getUser)
-        .update({
-          company: company
-        });
-
-      router.push({ path: "/company/" + company.id });
-    }
   },
   mounted() {
     db.collection("users")
@@ -164,21 +135,12 @@ export default {
       });
   },
   created() {
-    console.log("created");
-    db.collection("users")
-      .doc(store.getters.getUser)
-      .get()
-      .then(doc => {
-        this.user = doc.data();
-      })
-      .catch(err => {
-        console.log("Error getting document", err);
-      });
-    db.collection("companies")
+    db.collection("tags")
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          this.companies.push({ name: doc.data().name, id: doc.id });
+          //console.log(doc.data());
+          this.all_tags.push(doc.data().name);
         });
       })
       .catch(err => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Offers</h1>
+    <h1 class="justify-content-center">Offers</h1>
     <div class="row ml-2 mr-2">
       <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
     </div>
