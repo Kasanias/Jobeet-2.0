@@ -7,6 +7,7 @@
             <div class="card-body">
               <a v-if="this.isUser" href="#aboutModal" data-toggle="modal" data-target="#myModal">edit</a>
               <h3>{{user.firstname}} {{user.lastname}}</h3>
+              <h5>{{user.email}}</h5>
               <p v-if="user.company">Recruiter at {{user.company}}</p>
             </div>
           </div>
@@ -22,6 +23,12 @@
             <div class="col"></div>
             <div class="col">
               <CompanySelection v-if="user.company"/>
+              <div v-else>
+                <h3 class="mb-4">Tags</h3>
+                <ul style="margin: 0; padding: 0;">
+                  <li :key="t" v-for="t in this.user.tags">{{t}}</li>
+                </ul>
+              </div>
 
             </div>
             <div class="col"></div>

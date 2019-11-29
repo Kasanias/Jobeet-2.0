@@ -6,12 +6,33 @@
         <h5 class="card-title mt-2">{{offer.name}}</h5>
         <p class="card-text mt-2">{{offer.short_desc}}</p>
         <div class="mt-auto w-100">
-          <div
-            class="btn btn-outline-info btn-light disabled border-info"
-          >{{offer.created_at}}</div>
-          <div
-            class="btn btn-outline-info btn-light disabled border-info ml-5"
-          >See offer</div>
+          <div class="btn btn-outline-info disabled border-info">{{offer.created_at}}</div>
+          <button
+            type="button"
+            class="btn btn-outline-success ml-5"
+            data-toggle="modal"
+            :data-target="'#offerModal' + offer.name"
+          >See offer</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      tabindex="-1"
+      :id="'offerModal' + offer.name"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            {{offer.name}}
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -23,6 +44,9 @@ export default {
   props: ["offer"],
   data() {
     return {};
+  },
+  methods: {
+    seeOffer(id) {}
   }
 };
 </script>
