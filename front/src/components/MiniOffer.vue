@@ -28,8 +28,23 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
-            {{offer.name}}
-            <div class="modal-footer">
+            <center>
+              <h2>{{offer.name}}</h2>
+              <h5>{{offer.company}}</h5>
+            </center>
+
+            <hr />
+            <p class="mb-3">
+              <span style="font-weight: bold;">Description :</span>
+              {{offer.full_desc}}
+            </p>
+            <p style="font-weight: bold;">Skills required: <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span></p>
+            
+            <!-- <ul style="margin: 0; padding: 0;list-style-type: none;">
+              <li :key="t" v-for="t in offer.tags">{{t}}</li>
+            </ul> -->
+            <div class="modal-footer mt-2">
+              <button type="button" class="btn btn-primary">Apply now !</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
             </div>
           </div>
@@ -46,7 +61,9 @@ export default {
     return {};
   },
   methods: {
-    seeOffer(id) {}
+    apply(id) {
+
+    }
   }
 };
 </script>
