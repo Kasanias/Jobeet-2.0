@@ -5,7 +5,7 @@
         <center>
           <div class="card" style="width: 40rem;">
             <div class="card-body">
-              <a href="#aboutModal" data-toggle="modal" data-target="#myModal">edit</a>
+              <a v-if="this.isUser" href="#aboutModal" data-toggle="modal" data-target="#myModal">edit</a>
               <h3>{{user.firstname}} {{user.lastname}}</h3>
               <p v-if="user.company">Recruiter at {{user.company}}</p>
             </div>
@@ -21,7 +21,8 @@
           <div class="row">
             <div class="col"></div>
             <div class="col">
-              <CompanySelection/>
+              <CompanySelection v-if="user.company"/>
+
             </div>
             <div class="col"></div>
           </div>
@@ -42,7 +43,7 @@
           <div class="modal-content">
             <div class="modal-body">
               <center>
-                <form>
+                <form @submit="this.onSubmit">
                   <h3>Edit your profile</h3>
                   <div class="row">
                     <div class="col b">
@@ -81,7 +82,7 @@
                     </select>
                   </div>
 
-                  <button @click="onSubmit()" class="btn btn-primary">Submit changes</button>
+                  <button type="submit" class="btn btn-primary">Submit changes</button>
                 </form>
               </center>
             </div>
@@ -114,12 +115,18 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    onSubmit(evt) {
+      evt.preventDefault();
       console.log("submitting")
       db.collection("users")
         .doc(this.$route.params.email)
         .update(this.user);
     },
+  },
+  computed: {
+    isUser() {
+      return store.getters.getUser === this.user.email;
+    }
   },
   mounted() {
     db.collection("users")
