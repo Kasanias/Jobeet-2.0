@@ -38,13 +38,12 @@
               <span style="font-weight: bold;">Description :</span>
               {{offer.full_desc}}
             </p>
-            <p style="font-weight: bold;">Skills required: <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span></p>
-            
-            <!-- <ul style="margin: 0; padding: 0;list-style-type: none;">
-              <li :key="t" v-for="t in offer.tags">{{t}}</li>
-            </ul> -->
+            <p style="font-weight: bold;">
+              Skills required:
+              <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span>
+            </p>
             <div class="modal-footer mt-2">
-              <button type="button" class="btn btn-primary">Apply now !</button>
+              <button @click="apply()" type="button" class="btn btn-primary">Apply now !</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
             </div>
           </div>
@@ -55,14 +54,31 @@
 </template>
 
 <script>
+import { auth, db } from "@/main";
+import * as firebase from 'firebase';
+import router from "../router/index";
+import store from "../store/index";
 export default {
   props: ["offer"],
   data() {
     return {};
   },
   methods: {
-    apply(id) {
-
+    apply() {
+      let user = store.getters.getUser;
+      db.collection("offers")
+        .where("name", "==", this.offer.name)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(document => {
+            document.ref.update({
+              applicants: firebase.firestore.FieldValue.arrayUnion(user)
+            });
+          });
+        })
+        .catch(function(error) {
+          console.log("Error getting offers: ", error);
+        });
     }
   }
 };
