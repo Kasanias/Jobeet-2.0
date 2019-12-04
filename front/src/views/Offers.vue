@@ -3,11 +3,11 @@
     <h3 class="card-header">Offers</h3>
     <div class="card-body">
       <div class="row ml-2 mr-2">
-        <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
+        <mini-offer v-for="item in this.itemsPage" :offer="item"></mini-offer>
       </div>
     </div>
     <div class="card-footer pb-0 pt-3">
-      <jw-pagination :items="offers" @changePage="onChangePage"></jw-pagination>
+      <jw-pagination :items="offers" @changePage="onChangePage" :pageSize="pageSize"></jw-pagination>
     </div>
   </div>
 </template>
@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       offers: [],
-      itemsPage: []
+      itemsPage: [],
+      pageSize: 10
     };
   },
   methods: {
