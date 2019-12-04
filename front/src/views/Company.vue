@@ -7,9 +7,9 @@
       <a class="nav-item nav-link" href="#p3" data-toggle="tab">Applications</a>
     </nav>
     <div class="tab-content ml-4">
-      <div class="tab-pane active justify-content-center" id="p1">
+      <div class="tab-pane active" id="p1">
         <CreateOffer :company="this.company.name" />
-        <div class="row mt-2 justify-content-center">
+        <div class="row mt-2">
           <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
         </div>
       </div>
@@ -20,14 +20,34 @@
               <div class="card-body">
                 <h5 class="card-title">{{r.firstname}} {{r.lastname}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{r.email}}</h6>
-                <router-link class="card-link" :to='"/profile/" + r.email'>See profile</router-link>
+                <router-link class="card-link" :to="'/profile/' + r.email">See profile</router-link>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="tab-pane" id="p3">
-        <p>Some content in menu 1.</p>
+        <div class="row mt-4">
+          <div v-show="offer.applicants" :key="offer.name" v-for="offer in this.offers" class="col">
+            <div class="card bg-light h-100" style="width: 40rem;">
+              <div class="card-header">{{offer.name}}</div>
+              <div class="card-body">
+                
+                <div v-for="a in offer.applicants" class="col">
+                  <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">{{a}}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">{{a}}</h6>
+                      <button type="button" class="btn btn-primary">Accept</button>
+                      <router-link class="card-link ml-5" :to="'/profile/' + a">See profile</router-link>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -89,12 +109,12 @@ export default {
         console.log("Error getting offers: ", error);
       });
 
-      db.collection("users")
+    db.collection("users")
       .where("company", "==", this.$route.params.id)
       .get()
       .then(querySnapshot => {
         this.recruiters = querySnapshot.docs.map(doc => doc.data());
-        console.log(this.recruiters)
+        console.log(this.recruiters);
       })
       .catch(function(error) {
         console.log("Error getting recruiters: ", error);

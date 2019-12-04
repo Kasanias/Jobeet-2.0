@@ -6,7 +6,7 @@
       class="btn btn-primary "
       data-toggle="modal"
       data-target="#exampleModal"
-    >+</button>
+    >+ Create offer</button>
 
     <!-- Modal -->
     <div

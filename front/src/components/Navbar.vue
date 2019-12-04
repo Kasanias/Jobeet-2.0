@@ -21,7 +21,7 @@
           <router-link class="nav-link" to="/">Dashboard</router-link>
         </li>
         <li v-if="this.user.profile==='recruiter'" class="nav-item active">
-          <router-link class="nav-link" :to='"/company/" + this.user.company.id'>Company</router-link>
+          <router-link class="nav-link" :to='"/company/" + this.user.company'>Company</router-link>
         </li>
         <li class="nav-item active">
           <router-link class="nav-link" to="/offers">Offers</router-link>
