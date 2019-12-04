@@ -43,7 +43,8 @@
               <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span>
             </p>
             <div class="modal-footer mt-2">
-              <button @click="apply()" type="button" class="btn btn-primary">Apply now !</button>
+              <button v-if="!this.applied" @click="apply()" type="button" class="btn btn-primary">Apply now !</button>
+              <button v-else type="button" disabled class="btn btn-primary">Thanks for applying !</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
             </div>
           </div>
@@ -61,7 +62,22 @@ import store from "../store/index";
 export default {
   props: ["offer"],
   data() {
-    return {};
+    return {
+      applied: false
+    };
+  },
+  mounted() {
+    if (this.offer.applicants) {
+      if (this.offer.applicants.includes(store.getters.getUser)) {
+        this.applied = true
+      }
+      else {
+        this. applied = false
+      }
+    }
+    else {
+      this.applied = false
+    }
   },
   methods: {
     apply() {
@@ -75,6 +91,7 @@ export default {
               applicants: firebase.firestore.FieldValue.arrayUnion(user)
             });
           });
+          this.applied = true
         })
         .catch(function(error) {
           console.log("Error getting offers: ", error);

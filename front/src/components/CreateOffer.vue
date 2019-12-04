@@ -98,7 +98,8 @@ export default {
           full_desc: this.full_desc,
           tags: this.tags,
           created_at: new Date(Date.now()).toLocaleDateString(),
-          company: this.company
+          company: this.company,
+          applicants: []
         })
         .then(ref => {
           console.log("Added document with ID: ", ref.id);
