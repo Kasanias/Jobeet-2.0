@@ -1,8 +1,13 @@
 <template>
-  <div>
-    <h1 align="center" class="justify-content-center mt-2 mb-4">Offers</h1>
-    <div class="row ml-2 mr-2">
-      <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
+  <div class="card text-center m-3">
+    <h3 class="card-header">Offers</h3>
+    <div class="card-body">
+      <div class="row ml-2 mr-2">
+        <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
+      </div>
+    </div>
+    <div class="card-footer pb-0 pt-3">
+      <jw-pagination :items="offers" @changePage="onChangePage"></jw-pagination>
     </div>
   </div>
 </template>
@@ -11,18 +16,23 @@
 import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
-import MiniOffer from "../components/MiniOffer.vue"
+import MiniOffer from "../components/MiniOffer.vue";
 
 export default {
-  components : {
+  components: {
     MiniOffer
   },
   data() {
     return {
-      offers: []
+      offers: [],
+      itemsPage: []
     };
   },
-  methods: {},
+  methods: {
+    onChangePage(itemsPage) {
+      this.itemsPage = itemsPage;
+    }
+  },
   created() {
     db.collection("offers")
       .get()
