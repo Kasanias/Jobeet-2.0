@@ -29,28 +29,14 @@
       <div class="tab-pane" id="p3">
         <div class="row mt-4">
           <div v-show="offer.applicants" :key="offer.name" v-for="offer in this.offers" class="col">
-            <div class="card bg-light h-100" style="width: 40rem;">
-              <div class="card-header">{{offer.name}}</div>
-              <div class="card-body">
-                
-                <div v-for="a in offer.applicants" class="col">
-                  <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">{{a}}</h5>
-                      <h6 class="card-subtitle mb-2 text-muted">{{a}}</h6>
-                      <button type="button" class="btn btn-primary">Accept</button>
-                      <router-link class="card-link ml-5" :to="'/profile/' + a">See profile</router-link>
-                    </div>
-                  </div>
+                <div :key="a" v-for="a in offer.applicants" class="col">
+                  <Applications :offer="offer" :applicant="a"></Applications>
                 </div>
-
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -59,10 +45,12 @@ import router from "../router/index";
 import store from "../store/index";
 import CreateOffer from "../components/CreateOffer";
 import MiniOffer from "../components/MiniOffer";
+import Applications from "../components/Applications"
 export default {
   components: {
     CreateOffer,
-    MiniOffer
+    MiniOffer,
+    Applications
   },
   data() {
     return {
