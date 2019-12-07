@@ -29,14 +29,12 @@
       <div class="tab-pane" id="p3">
         <div class="row mt-4">
           <div v-show="offer.applicants" :key="offer.name" v-for="offer in this.offers" class="col">
-                <div :key="a" v-for="a in offer.applicants" class="col">
-                  <Applications :offer="offer" :applicant="a"></Applications>
-                </div>
-            </div>
+            <Applications :key="a" v-for="a in offer.applicants" :offer="offer" :applicant="a"></Applications>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -45,7 +43,7 @@ import router from "../router/index";
 import store from "../store/index";
 import CreateOffer from "../components/CreateOffer";
 import MiniOffer from "../components/MiniOffer";
-import Applications from "../components/Applications"
+import Applications from "../components/Applications";
 export default {
   components: {
     CreateOffer,

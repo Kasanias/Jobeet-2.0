@@ -12,6 +12,9 @@ Vue.use(BootstrapVue);
 // register jw pagination component globally
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
 
 Vue.config.productionTip = false;
 
