@@ -28,9 +28,10 @@
       </div>
       <div class="tab-pane" id="p3">
         <div class="row mt-4">
-          <div v-show="offer.applicants" :key="offer.name" v-for="offer in this.offers" class="col">
+          <Applications :key="application" v-for="application in applications" :application="application"></Applications>
+          <!-- <div v-show="offer.applicants" :key="offer.name" v-for="offer in this.offers" class="col">
             <Applications :key="a" v-for="a in offer.applicants" :offer="offer" :applicant="a"></Applications>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -55,7 +56,8 @@ export default {
       user: {},
       company: {},
       offers: [],
-      recruiters: []
+      recruiters: [],
+      applications: []
     };
   },
   methods: {},
@@ -105,6 +107,21 @@ export default {
       .catch(function(error) {
         console.log("Error getting recruiters: ", error);
       });
+
+    db.collection("applications")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          if (doc.data().offer.company === this.$route.params.id) {
+            this.applications.push(doc.data())
+            console.log(doc.id, "=>", doc.data());
+          }
+        });
+      })
+      .catch(err => {
+        console.log("Error getting documents", err);
+      });
+    index.js;
   }
 };
 </script>

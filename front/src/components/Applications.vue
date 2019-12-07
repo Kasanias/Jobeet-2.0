@@ -2,10 +2,10 @@
   <div class="col">
     <div class="card" style="width: 18rem;">
       <div class="card-header">
-        <h5>{{offer.name}}</h5>
+        <h5>{{application.offer.name}} - {{application.status}}</h5>
       </div>
       <div class="card-body">
-        <router-link class="card-link" :to="'/profile/' + applicant">{{applicant}}</router-link>
+        <router-link class="card-link" :to="'/profile/' + application.user">{{application.user}}</router-link>
         <button type="button" class="btn btn-primary ml-5" @click="show()">Application</button>
       </div>
     </div>
@@ -14,31 +14,31 @@
     <modal height="auto" :scrollable="true" :name="this.modalId">
       <div class="modal-body">
         <center>
-          <h2>{{offer.name}}</h2>
-          <h5>{{offer.company}}</h5>
+          <h2>{{application.offer.name}}</h2>
+          <h5>{{application.offer.company}}</h5>
         </center>
 
         <hr />
         <p class="mb-3">
           <span style="font-weight: bold;">Description :</span>
-          {{offer.full_desc}}
+          {{application.offer.full_desc}}
         </p>
         <p style="font-weight: bold;">
           Skills required:
-          <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span>
+          <span style="font-weight: normal;">{{ application.offer.tags.join(', ') }}</span>
         </p>
         <hr />
         <p class="mb-3">
           <span style="font-weight: bold;">Candidate :</span>
-          {{applicant}}
+          {{application.user}}
         </p>
         <p style="font-weight: bold;">
           Match percentage:
           <span style="font-weight: normal;">{{this.matchPercentage}}%</span>
         </p>
         <div class="modal-footer mt-2">
-          <button type="button" class="btn btn-primary">Accept</button>
-          <button type="button" disabled class="btn btn-primary">Deny</button>
+          <button type="button" class="btn btn-primary" @click="accept()">Accept</button>
+          <button type="button" class="btn btn-danger" @click="reject()">Reject</button>
           <button type="button" class="btn btn-default" @click="hide">Dismiss</button>
         </div>
       </div>
@@ -51,10 +51,10 @@ import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
 export default {
-  props: ["offer", "applicant"],
+  props: ["application"],
   data() {
     return {
-      modalId: "" + this.offer.name + "/" + this.applicant,
+      modalId: "" + this.application.offer.name + ":" + this.application.user,
       matchPercentage: 0,
       user: {}
     };
@@ -65,11 +65,28 @@ export default {
     },
     hide() {
       this.$modal.hide(this.modalId);
+    },
+    accept() {
+      console.log("hey")
+      this.application.status = "accepted"
+      db.collection("applications")
+        .doc(this.modalId)
+        .update({
+          status : "accepted"
+        });
+    },
+    reject() {
+      this.application.status = "rejected"
+      db.collection("applications")
+        .doc(this.modalId)
+        .update({
+          status : "rejected"
+        });
     }
   },
   created() {
     db.collection("users")
-      .doc(this.applicant)
+      .doc(this.application.user)
       .get()
       .then(doc => {
         if (!doc.exists) {
@@ -77,15 +94,12 @@ export default {
         } else {
           console.log("User profile:", doc.data());
           this.user = doc.data();
-          var matches = this.offer.tags.filter(tag => {
-            console.log(this.offer.tags, "tags");
-
+          var matches = this.application.offer.tags.filter(tag => {
             return this.user.tags.includes(tag);
           }).length;
-          this.matchPercentage = (matches / this.offer.tags.length) * 100;
+          this.matchPercentage = (matches / this.application.offer.tags.length) * 100;
         }
       });
-  },
-  mounted() {}
+  }
 };
 </script>

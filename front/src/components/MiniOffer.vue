@@ -96,6 +96,13 @@ export default {
         .catch(function(error) {
           console.log("Error getting offers: ", error);
         });
+      db.collection("applications")
+      .doc(this.offer.name + ':' + store.getters.getUser)
+      .set({
+        offer: this.offer,
+        user: store.getters.getUser,
+        status: 'pending'
+      })
     }
   }
 };
