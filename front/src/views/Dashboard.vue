@@ -53,8 +53,8 @@ export default {
       });
   },
   mounted() {
-    db.collection("offers")
-      .where("applicants", "array-contains", store.getters.getUser)
+    db.collection("applications")
+      .where("user", "===", store.getters.getUser)
       .get()
       .then(querySnapshot => {
         this.myOffers = querySnapshot.docs.map(doc => doc.data());
