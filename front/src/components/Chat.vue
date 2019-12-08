@@ -1,6 +1,6 @@
 <template>
   <div class="chat">
-    <div @click="isOpen = !isOpen" class="chatHeader">Chat - {{chatName}}</div>
+    <div @click="isOpen = !isOpen" class="chatHeader">Chat - {{getReceiver}}</div>
     <div v-show="isOpen" class="chatOpen">
       <div ref="chatArea" class="chat-area">
         <p
@@ -44,12 +44,23 @@ export default {
       yourMessage: "",
       messages: [
         
-      ]
+      ],
+      applicant: "",
+      recruiter: "",
+      offer: ""
     };
   },
   computed: {
     getUser() {
       return store.getters.getUser;
+    },
+    getReceiver() {
+      if (this.applicant === this.getUser) {
+        return this.recruiter
+      }
+      else {
+        return this.applicant
+      }
     }
   },
   mounted() {
@@ -57,7 +68,9 @@ export default {
       ref.onSnapshot(doc => {
         console.log("Current data: ", doc.data().messages);
         this.messages = doc.data().messages
-        
+        this.applicant = doc.data().applicant
+        this.recruiter = doc.data().recruiter
+        this.offer = doc.data().offer
       });
   },
   methods: {
