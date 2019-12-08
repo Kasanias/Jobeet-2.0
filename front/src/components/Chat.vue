@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <div @click="isOpen = !isOpen" class="chatHeader">
-      Chat
+      Chat - {{chatName}}
     </div>
     <div v-show="isOpen" class="chatOpen">
     <div ref="chatArea" class="chat-area">
@@ -32,6 +32,7 @@
 
 <script>
 export default {
+  props : ["chatName"],
   data() {
     return {
       isOpen: true,
@@ -93,7 +94,8 @@ export default {
   overflow: auto;
   max-width: 350px;
   margin: 0 auto  auto;
-  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.3);
+  border: 1px solid;
+  border-color: #007bff;
 }
 .chatHeader {
   background-color: #007bff;
@@ -101,12 +103,10 @@ export default {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  opacity: 0.8;
 }
 .chat {
-    position: absolute;
-  bottom: 0;
-  right: 0;
+  position: absolute;
+  bottom: 0
 }
 .message {
   width: 45%;

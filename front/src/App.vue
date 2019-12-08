@@ -4,6 +4,7 @@
       <Navbar/>
     </div>
     <router-view/>
+    <Footer/>
   </div>
 </template>
 
@@ -11,9 +12,11 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import  Navbar from "./components/Navbar"
+import  Footer from "./components/Footer"
+import Chat from "./components/Chat"
 export default {
   components : {
-    Navbar
+    Navbar, Chat, Footer
   }
 }
 </script>
@@ -27,6 +30,7 @@ export default {
 #nav {
   padding: 0;
 }
+
 
 
 

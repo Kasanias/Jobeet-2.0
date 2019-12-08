@@ -50,8 +50,12 @@
 import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
+import Chat from "../components/Chat"
 export default {
   props: ["application"],
+  components: {
+    Chat
+  },
   data() {
     return {
       modalId: "" + this.application.offer.name + ":" + this.application.user,
@@ -67,7 +71,6 @@ export default {
       this.$modal.hide(this.modalId);
     },
     accept() {
-      console.log("hey")
       this.application.status = "accepted"
       db.collection("applications")
         .doc(this.modalId)

@@ -20,7 +20,6 @@
         <h3>Suggestions</h3>
       </div>
     </div>
-    <Chat/>
   </div>
 </template>
 
