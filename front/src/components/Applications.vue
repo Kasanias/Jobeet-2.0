@@ -77,6 +77,17 @@ export default {
         .update({
           status : "accepted"
         });
+      db.collection("chat").doc(this.modalId).set({
+        offer: this.application.offer.name,
+        applicant: this.application.user,
+        recruiter: store.getters.getUser,
+        messages: [
+          {
+            author: store.getters.getUser,
+            body: "Hello " + this.application.user + ", we would like to let you continue our recruiting process."
+          }
+        ]
+      })
     },
     reject() {
       this.application.status = "rejected"

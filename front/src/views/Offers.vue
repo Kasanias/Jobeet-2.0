@@ -26,7 +26,8 @@ export default {
     return {
       offers: [],
       itemsPage: [],
-      pageSize: 10
+      pageSize: 10,
+      user: {}
     };
   },
   methods: {
@@ -34,7 +35,7 @@ export default {
       this.itemsPage = itemsPage;
     }
   },
-  created() {
+  mounted() {
     db.collection("offers")
       .get()
       .then(snapshot => {
@@ -42,8 +43,23 @@ export default {
           return;
         }
         snapshot.forEach(doc => {
-          this.offers.push(doc.data());
+          let offer = doc.data()
+          var matches = offer.tags.filter(tag => {
+            return this.user.tags.includes(tag);
+          }).length;
+          let matchPercentage =
+            (matches / offer.tags.length) * 100;
+          offer.matchPercentage = matchPercentage
+          this.offers.push(offer);
         });
+      });
+  },
+  created() {
+    db.collection("users")
+      .doc(store.getters.getUser)
+      .get()
+      .then(doc => {
+        this.user = doc.data();
       });
   }
 };

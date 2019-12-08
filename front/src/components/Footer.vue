@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="row">
-      <div :key="chat" v-for="chat in chats" class="col">
+      <div :key="chat" v-for="chat in chats" class="col-md-2">
         <Chat :chatName="chat"></Chat>
       </div>
     </div>

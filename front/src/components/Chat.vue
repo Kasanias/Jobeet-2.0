@@ -11,11 +11,6 @@
       </div>
 
       <div class="chat-inputs">
-        <!-- <form @submit.prevent="sendMessage('out')" id="person1-form">
-        <input v-model="yourMessage" id="person1-input" type="text" placeholder="Type your message" />
-        <button class="submitChat" type="submit">Send</button>
-        </form>-->
-        <!-- <button @click="clearAllMessages">Clear All</button> -->
         <form @submit.prevent="sendMessage('out')" id="person2-form">
           <input
             v-model="yourMessage"
@@ -79,11 +74,6 @@ export default {
         return;
       }
 
-      // this.messages.push({
-      //   body: this.yourMessage,
-      //   author: store.getters.getUser
-      // });
-
       db.collection("chat")
         .doc(this.chatName)
         .update({
@@ -116,15 +106,13 @@ export default {
   color: white;
 }
 .chat-area {
-  /*   border: 1px solid #ccc; */
+    border: 1px solid #ccc;
   background: white;
-  height: 50vh;
+  height: 40vh;
   padding: 1em;
   overflow: auto;
   max-width: 350px;
   margin: 0 auto auto;
-  border: 1px solid;
-  border-color: #007bff;
 }
 .chatHeader {
   background-color: #007bff;
@@ -157,7 +145,7 @@ export default {
   display: flex;
 }
 .submitChat {
-  height: 100%;
+  height: 105%;
 }
 #person1-input {
   padding: 0.5em;

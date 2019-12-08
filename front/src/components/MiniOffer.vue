@@ -42,6 +42,10 @@
               Skills required:
               <span style="font-weight: normal;">{{ offer.tags.join(', ') }}</span>
             </p>
+            <p v-if="offer.matchPercentage" style="font-weight: bold;">
+              Match percentage:
+              <span style="font-weight: normal;">{{ offer.matchPercentage}}%</span>
+            </p>
             <div class="modal-footer mt-2">
               <button v-if="!this.applied" @click="apply()" type="button" class="btn btn-primary">Apply now !</button>
               <button v-else type="button" disabled class="btn btn-primary">Thanks for applying !</button>

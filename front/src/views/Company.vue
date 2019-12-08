@@ -9,7 +9,7 @@
     <div class="tab-content ml-4">
       <div class="tab-pane active" id="p1">
         <CreateOffer :company="this.company.name" />
-        <div class="row mt-2">
+        <div class="row text-center mt-2">
           <mini-offer v-for="item in this.offers" :offer="item"></mini-offer>
         </div>
       </div>
