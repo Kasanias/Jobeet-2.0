@@ -1,73 +1,89 @@
 <template>
   <div class="chat">
-    <div @click="isOpen = !isOpen" class="chatHeader">
-      Chat - {{chatName}}
-    </div>
+    <div @click="isOpen = !isOpen" class="chatHeader">Chat - {{chatName}}</div>
     <div v-show="isOpen" class="chatOpen">
-    <div ref="chatArea" class="chat-area">
-      <p
-      :key="message.author"
-        v-for="message in messages"
-        class="message"
-        :class="{ 'message-out': message.author === 'you', 'message-in': message.author !== 'you' }"
-      >{{ message.body }}</p>
-    </div>
+      <div ref="chatArea" class="chat-area">
+        <p
+          v-for="message in messages"
+          class="message"
+          :class="{ 'message-out': message.author === getUser, 'message-in': message.author !== getUser }"
+        >{{ message.body }}</p>
+      </div>
 
-    <div class="chat-inputs">
-      <form @submit.prevent="sendMessage('in')" id="person1-form">
-        <input v-model="bobMessage" id="person1-input" type="text" placeholder="Type your message" />
+      <div class="chat-inputs">
+        <!-- <form @submit.prevent="sendMessage('out')" id="person1-form">
+        <input v-model="yourMessage" id="person1-input" type="text" placeholder="Type your message" />
         <button class="submitChat" type="submit">Send</button>
-      </form>
-      <!-- <button @click="clearAllMessages">Clear All</button> -->
-      <!-- <form @submit.prevent="sendMessage('out')" id="person2-form">
-        <label for="person2-input">You</label>
-        <input v-model="youMessage" id="person2-input" type="text" placeholder="Type your message" />
-        <button type="submit">Send</button>
-      </form> -->
-    </div>
+        </form>-->
+        <!-- <button @click="clearAllMessages">Clear All</button> -->
+        <form @submit.prevent="sendMessage('out')" id="person2-form">
+          <input
+            v-model="yourMessage"
+            id="person2-input"
+            type="text"
+            placeholder="Type your message"
+          />
+          <button class="submitChat" type="submit">Send</button>
+        </form>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
+import { auth, db } from "@/main";
+import router from "../router/index";
+import store from "../store/index";
+import * as firebase from "firebase";
+
 export default {
-  props : ["chatName"],
+  props: ["chatName"],
   data() {
     return {
       isOpen: true,
-      bobMessage: "",
-      youMessage: "",
+      yourMessage: "",
       messages: [
-        {
-          body: "Welcome to the chat, I'm Bob!",
-          author: "bob"
-        },
-        {
-          body: "Thank you Bob",
-          author: "you"
-        },
-        {
-          body: "You're most welcome",
-          author: "bob"
-        }
+        
       ]
     };
   },
+  computed: {
+    getUser() {
+      return store.getters.getUser;
+    }
+  },
+  mounted() {
+    let ref = db.collection("chat").doc(this.chatName);
+      ref.onSnapshot(doc => {
+        console.log("Current data: ", doc.data().messages);
+        this.messages = doc.data().messages
+        
+      });
+  },
   methods: {
     sendMessage(direction) {
-      if (!this.youMessage && !this.bobMessage) {
+      if (!this.yourMessage) {
         return;
       }
-      if (direction === "out") {
-        this.messages.push({ body: this.youMessage, author: "you" });
-        this.youMessage = "";
-      } else if (direction === "in") {
-        this.messages.push({ body: this.bobMessage, author: "bob" });
-        this.bobMessage = "";
-      } else {
-        alert("something went wrong");
-      }
+
+      // this.messages.push({
+      //   body: this.yourMessage,
+      //   author: store.getters.getUser
+      // });
+
+      db.collection("chat")
+        .doc(this.chatName)
+        .update({
+          messages: firebase.firestore.FieldValue.arrayUnion({
+            author: store.getters.getUser,
+            body: this.yourMessage
+          })
+        })
+        .catch(function(error) {
+          console.log("Error getting offers: ", error);
+        });
+      this.yourMessage = "";
+
       Vue.nextTick(() => {
         let messageDisplay = this.$refs.chatArea;
         messageDisplay.scrollTop = messageDisplay.scrollHeight;
@@ -93,7 +109,7 @@ export default {
   padding: 1em;
   overflow: auto;
   max-width: 350px;
-  margin: 0 auto  auto;
+  margin: 0 auto auto;
   border: 1px solid;
   border-color: #007bff;
 }
@@ -106,7 +122,7 @@ export default {
 }
 .chat {
   position: absolute;
-  bottom: 0
+  bottom: 0;
 }
 .message {
   width: 45%;

@@ -1,8 +1,8 @@
 <template>
   <footer>
     <div class="row">
-      <div :key="chat.id" v-for="chat in chats" class="col">
-        <Chat :chatName="chat.id"></Chat>
+      <div :key="chat" v-for="chat in chats" class="col">
+        <Chat :chatName="chat"></Chat>
       </div>
     </div>
   </footer>
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      chats : []
+      chats: []
     };
   },
   created() {
@@ -27,11 +27,15 @@ export default {
     ref.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         if ((change.type = "added")) {
-          let doc = change.doc.data()
-          if (doc.applicant === store.getters.getUser || doc.recruiter === store.getters.getUser) {
-            doc.id = change.doc.id
-            this.chats.push(doc)
-            console.log("adding new chat")
+          if (!this.chats.includes(change.doc.id)) {
+            let doc = change.doc.data();
+            if (
+              doc.applicant === store.getters.getUser ||
+              doc.recruiter === store.getters.getUser
+            ) {
+              this.chats.push(change.doc.id);
+              console.log("adding new chat", change.doc.id);
+            }
           }
         }
       });
