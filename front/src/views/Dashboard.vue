@@ -6,7 +6,7 @@
           <h3 class="card-header">My applications</h3>
           <div class="card-body">
             <div class="row ml-2 mr-2">
-              <mini-offer v-for="item in this.myOffersPage" :offer="item"></mini-offer>
+              <mini-offer :key="item.name" v-for="item in this.myOffersPage" :offer="item"></mini-offer>
             </div>
           </div>
           <div class="card-footer pb-0 pt-3">
@@ -20,6 +20,7 @@
         <h3>Suggestions</h3>
       </div>
     </div>
+    <Chat/>
   </div>
 </template>
 
@@ -29,9 +30,11 @@ import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
 import MiniOffer from "../components/MiniOffer";
+import Chat from "../components/Chat"
 export default {
   components: {
-    MiniOffer
+    MiniOffer,
+    Chat
   },
   data() {
     return {
@@ -51,13 +54,12 @@ export default {
       .catch(err => {
         console.log("Error getting document", err);
       });
-  },
-  mounted() {
+
     db.collection("applications")
-      .where("user", "===", store.getters.getUser)
+      .where("user", "==", store.getters.getUser)
       .get()
       .then(querySnapshot => {
-        this.myOffers = querySnapshot.docs.map(doc => doc.data());
+        this.myOffers = querySnapshot.docs.map(doc => doc.data().offer);
       })
       .catch(function(error) {
         console.log("Error getting offers: ", error);
