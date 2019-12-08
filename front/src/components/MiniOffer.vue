@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-3 col-md-6">
+  <div class="col-lg-3 col-md-6 mb-4">
     <div class="card bg-light h-100">
       <div class="card-header">{{offer.company}}</div>
       <div class="d-flex flex-column card-body">

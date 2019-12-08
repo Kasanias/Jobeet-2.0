@@ -87,15 +87,27 @@ export default {
         console.log("Error getting company", err);
       });
 
-    db.collection("offers")
-      .where("company", "==", this.$route.params.id)
-      .get()
-      .then(querySnapshot => {
-        this.offers = querySnapshot.docs.map(doc => doc.data());
-      })
-      .catch(function(error) {
-        console.log("Error getting offers: ", error);
+    let ref = db.collection("offers");
+    ref.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if ((change.type = "added")) {
+          let doc = change.doc.data();
+          if (doc.company === this.$route.params.id) {
+            this.offers.push(doc)
+          }
+        }
       });
+    });
+
+    // db.collection("offers")
+    //   .where("company", "==", this.$route.params.id)
+    //   .get()
+    //   .then(querySnapshot => {
+    //     this.offers = querySnapshot.docs.map(doc => doc.data());
+    //   })
+    //   .catch(function(error) {
+    //     console.log("Error getting offers: ", error);
+    //   });
 
     db.collection("users")
       .where("company", "==", this.$route.params.id)
