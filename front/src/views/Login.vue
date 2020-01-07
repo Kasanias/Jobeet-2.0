@@ -127,7 +127,8 @@ export default {
               firstname: this.form.firstname,
               lastname: this.form.lastname,
               profile: this.form.profile,
-              email: this.form.email
+              email: this.form.email,
+              tags: []
             }
           db.collection('users').doc(this.form.email).set(user);
           store.dispatch('login', this.form.email)
