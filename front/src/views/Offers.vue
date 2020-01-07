@@ -32,7 +32,7 @@ import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
 import MiniOffer from "../components/MiniOffer.vue";
-import moment from 'moment'
+import moment from "moment";
 
 export default {
   components: {
@@ -49,15 +49,23 @@ export default {
   },
   methods: {
     onChangeSort(event) {
-      let value = event.target.value
-      if (value == 1) {//newest
-        this.offers.sort((a,b) => (moment(a.created_at, 'DD-MM-YYYY').toDate() < moment(b.created_at, 'DD-MM-YYYY').toDate()))
-      }
-      else if (value == 2) {//oldest
-        this.offers.sort((a,b) => (moment(a.created_at, 'DD-MM-YYYY').toDate() > moment(b.created_at, 'DD-MM-YYYY').toDate()))
-      }
-      else if (value == 3) {
-        this.offers.sort((a,b) => (a.matchPercentage < b.matchPercentage))
+      let value = event.target.value;
+      if (value == 1) {
+        //newest
+        this.offers.sort(
+          (a, b) =>
+            moment(a.created_at, "DD-MM-YYYY").toDate() <
+            moment(b.created_at, "DD-MM-YYYY").toDate()
+        );
+      } else if (value == 2) {
+        //oldest
+        this.offers.sort(
+          (a, b) =>
+            moment(a.created_at, "DD-MM-YYYY").toDate() >
+            moment(b.created_at, "DD-MM-YYYY").toDate()
+        );
+      } else if (value == 3) {
+        this.offers.sort((a, b) => a.matchPercentage < b.matchPercentage);
       }
     },
     onChangePage(itemsPage) {
@@ -72,12 +80,21 @@ export default {
           }
           snapshot.forEach(doc => {
             let offer = doc.data();
-            var matches = offer.tags.filter(tag => {
-              return this.user.tags.includes(tag);
-            }).length;
-            let matchPercentage = (matches / offer.tags.length) * 100;
-            offer.matchPercentage = matchPercentage;
-            this.offers.push(offer);
+            var diff =
+              new Date().getTime() -
+              moment(offer.created_at, "DD-MM-YYYY")
+                .toDate()
+                .getTime();
+            diff = diff / (60 * 60 * 24 * 1000);
+            var diffMonths = Math.abs(Math.round(diff));
+            if (diffMonths <= 31) {
+              var matches = offer.tags.filter(tag => {
+                return this.user.tags.includes(tag);
+              }).length;
+              let matchPercentage = (matches / offer.tags.length) * 100;
+              offer.matchPercentage = matchPercentage;
+              this.offers.push(offer);
+            }
           });
         });
     }

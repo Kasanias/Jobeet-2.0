@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="row">
+    <div v-show="this.isLogged" class="row">
       <div :key="chat" v-for="chat in chats" class="col-md-2">
         <Chat :chatName="chat"></Chat>
       </div>
@@ -40,6 +40,11 @@ export default {
         }
       });
     });
+  },
+  computed: {
+    isLogged() {
+      return store.getters.getUser !== null;
+    }
   }
 };
 </script>

@@ -131,8 +131,8 @@ export default {
               tags: []
             }
           db.collection('users').doc(this.form.email).set(user);
-          store.dispatch('login', this.form.email)
-          router.push("dashboard")
+          console.log("test", this.form)
+          store.dispatch('login', this.form)
         })
         .catch(err => {
           this.error = err.message;

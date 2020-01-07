@@ -24,6 +24,7 @@ export default new Vuex.Store({
 
   actions: {
     login({ commit }, payload) {
+      console.log("payload", payload)
       auth
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(

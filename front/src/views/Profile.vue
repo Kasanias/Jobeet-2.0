@@ -22,8 +22,8 @@
           <div class="row">
             <div class="col"></div>
             <div class="col">
-              <CompanySelection v-if="user.company"/>
-              <div v-else>
+              <companyselection v-show="this.isRecruiter"/>
+              <div>
                 <h3 class="mb-4">Tags</h3>
                 <ul style="margin: 0; padding: 0;">
                   <li :key="t" v-for="t in this.user.tags">{{t}}</li>
@@ -109,11 +109,11 @@
 import { auth, db } from "@/main";
 import router from "../router/index";
 import store from "../store/index";
-import CompanySelection from "../components/CompanySelection"
+import companyselection from "../components/CompanySelection"
 
 export default {
   components : {
-    CompanySelection
+    companyselection
   },
   data() {
     return {
@@ -133,6 +133,9 @@ export default {
   computed: {
     isUser() {
       return store.getters.getUser === this.user.email;
+    },
+    isRecruiter() {
+      return this.user.profile === "recruiter"
     }
   },
   mounted() {
